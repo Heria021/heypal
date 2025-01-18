@@ -9,6 +9,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
+import { FieldValues } from "react-hook-form";
+import UserProfile from "./_components/Edit/UserProfile";
 
 const Page = () => {
   const router = useRouter();
@@ -31,6 +33,7 @@ const Page = () => {
 };
 
   return (
+    // <UserProfile/>
     <div className="w-full h-auto px-4">
       <div className="w-full p-6 space-y-6">
         <h2 className="text-xl font-semibold">Popular Groups</h2>

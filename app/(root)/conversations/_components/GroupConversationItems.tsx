@@ -16,7 +16,7 @@ const GroupConversationItem = ({ id, name, lastMessageContent, lastMessageSender
     return (
         <Link href={`/conversations/${id}`} className='w-full'>
             <Card className='flex flex-row items-center gap-4 p-2 truncate'>
-                <div className=" flex flex-row items-center gap-4 truncate">
+                <div className="flex flex-row items-center gap-4 truncate">
                     <Avatar>
                         <AvatarFallback>{name.charAt(0).toLocaleUpperCase()}</AvatarFallback>
                     </Avatar>

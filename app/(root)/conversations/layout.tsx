@@ -6,7 +6,6 @@ import React from 'react';
 import DMConversationItem from './_components/DMConversationItem';
 import CreateGroupDialog from './_components/CreateGroupDialog';
 import GroupConversationItem from './_components/GroupConversationItems';
-import UserInformation from '../home/_components/UserInformation';
 
 type Props = React.PropsWithChildren<{}>;
 
@@ -39,7 +38,6 @@ const layout = ({ children }: Props) => {
                   lastMessageContent={conversation.lastMessage?.content}
                   lastMessageSender={conversation.lastMessage?.sender}
                 />
-
               );
             })
           )

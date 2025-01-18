@@ -11,13 +11,35 @@ import ChatInput from './_components/input/ChatInput'
 
 import { use } from "react";
 import RemoveFriendDialog from './_components/dialogs/RemoveFriendDialog'
-import UserInformation from '../../home/_components/UserInformation'
+import { useMutationState } from '@/hooks/useMutationState'
+import ProfileContainer from '@/components/shared/conversation/ProfileContainer'
+import Emotion from './_components/reaction/Emotion'
+import UserInformation from './_components/details/UserInformation'
+import GroupInformation from './_components/details/GroupInformation'
+import Empty from './_components/features/Empty'
 
 type Props = {
   params: Promise<{
     conversationId: Id<"conversations">;
   }>;
 };
+
+interface UserProfile {
+  _creationTime: number;
+  _id: string;
+  clerkId: string;
+  content: boolean;
+  email: string;
+  imageUrl: string;
+  username: string;
+  about: string;
+  bio: string;
+  interests: string[];
+  mood_status: string;
+  online_status: string;
+  pals: number;
+  userId: string;
+}
 
 const ConversationPage = ({ params }: Props) => {
   const { conversationId } = use(params);
@@ -28,6 +50,22 @@ const ConversationPage = ({ params }: Props) => {
   const [deleteGroupDialogOpen, setDeteleGroupDialogOpen] = useState(false);
   const [leaveGroupDialogOpen, setLeaveGroupDialogOpen] = useState(false);
   const [callType, setCallType] = useState<"audio" | "video" | null>();
+
+  const [user, setUser] = useState<UserProfile>();
+  const { mutate: getUser } = useMutationState(api.profile.getUserById);
+
+  const group = useQuery(api.profile.getGroupById, { conversationsId: conversationId });
+
+  const clearUser = () => {
+    setUser(undefined);
+  };
+
+  const handleAvatarClick = (userId: Id<"users">) => {
+    getUser({ userId }).then((data) => {
+      setUser(data);
+    });
+    console.log(userId)
+  };
 
   return conversation === undefined ? (
     <div className="w-full h-full flex items-center justify-center">
@@ -42,6 +80,7 @@ const ConversationPage = ({ params }: Props) => {
       <ConversationContainer>
         <RemoveFriendDialog conversationId={conversationId} open={removeFriendDialogOpen} setOpen={setRemoveFriendDialogOpen}></RemoveFriendDialog>
         <Header
+          clearUser={clearUser}
           imageUrl={conversation.isGroup ? undefined : conversation?.otherMember?.imageUrl}
           name={(conversation.isGroup ? conversation.name : conversation?.otherMember?.username) || ""}
           options={conversation.isGroup ?
@@ -51,12 +90,16 @@ const ConversationPage = ({ params }: Props) => {
             [{ label: "Remove friend", destructive: true, onClick: () => setRemoveFriendDialogOpen(true) }]
           }
         />
-        <Body />
+        <Body handleAvatarClick={handleAvatarClick} />
         <ChatInput />
       </ConversationContainer>
-      <UserInformation />
+      <ProfileContainer>
+        <Emotion />
+        {user || !conversation.isGroup ? '' : <GroupInformation groups={group} />}
+        <UserInformation data={user} />
+        <Empty/>
+      </ProfileContainer>
     </>
-
   );
 };
 

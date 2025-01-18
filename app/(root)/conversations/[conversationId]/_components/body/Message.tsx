@@ -11,18 +11,19 @@ type Props = {
     content: string[];
     createdAt: number;
     type: string;
+    onAvatarClick: () => void; 
 }
 
 const formateTime = (timeStamp: number) => {
     return format(timeStamp, "HH:mm")
 }
-const Message = ({ fromCurrentUser, senderImage, senderName, lastByUser, content, createdAt, type }: Props) => {
+const Message = ({ fromCurrentUser, senderImage, senderName, lastByUser, content, createdAt, type, onAvatarClick }: Props) => {
     return (
         <div className={cn("flex items-end", { "justify-end": fromCurrentUser })}>
             <div className={cn("flex flex-col w-full mx-2", { "order-1 items-end": fromCurrentUser, "order-2 items-start": !fromCurrentUser })}>
                 <div className={cn("px-4 py-2 rounded-lg max-w-[70%]", { "bg-primary text-primary-foreground": fromCurrentUser, "bg-secondary text-secondary-foreground": !fromCurrentUser, "rounded-br-none": !lastByUser && fromCurrentUser, "rounded-bl-none": !lastByUser && !fromCurrentUser })}>
                     {type === "text"
-                        ? <p className='text-wrap break-words whitespace-pre-wrap'>
+                        ? <p className='text-wrap break-words whitespace-pre-wrap text-sm'>
                             {content}
                         </p>
                         : null
@@ -36,7 +37,9 @@ const Message = ({ fromCurrentUser, senderImage, senderName, lastByUser, content
                 "order-2": fromCurrentUser,
                 "order-1": !fromCurrentUser,
                 "invisible": lastByUser,
-            })}>
+            })}
+            onClick={onAvatarClick}
+            >
                 <AvatarImage src={senderImage} />
                 <AvatarFallback>
                     {senderName.substring(0, 1)}

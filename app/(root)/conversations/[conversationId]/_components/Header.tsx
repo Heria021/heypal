@@ -15,16 +15,17 @@ type Props = {
         destructive?: boolean;
         onClick: () => void;
     }[];
+    clearUser: () => void;
 };
 
-const Header = ({ imageUrl, name, options }: Props) => {
+const Header = ({ imageUrl, name, options, clearUser }: Props) => {
     return (
         <Card className="w-full flex rounded-lg items-center p-2 justify-between">
             <div className="flex items-center gap-2">
                 <Link className="lg:hidden block" href={'/conversations'}>
                     <CircleArrowLeft />
                 </Link>
-                <Avatar>
+                <Avatar onClick={clearUser} className=' cursor-pointer'>
                     <AvatarImage src={imageUrl} />
                     <AvatarFallback>
                         <User2 />

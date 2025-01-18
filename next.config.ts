@@ -1,16 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: ['img.clerk.com'], 
+  },
   async redirects() {
     return [
       {
         source: "/",
         destination: "/home",
-        permanent: true
-      }
-    ]
-  }
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

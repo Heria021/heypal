@@ -13,6 +13,66 @@ export default defineSchema({
     .index("by_username", ["username"]) 
     .index("by_clerkId", ["clerkId"]),
 
+    userProfile: defineTable({
+        userId: v.id("users"),
+        pals: v.number(),                
+        interests: v.array(v.string()),  
+        bio: v.string(),
+        about: v.string(),
+        gender: v.optional(v.union(v.literal("Male"), v.literal("Female"))),
+        dob: v.optional(v.string()),
+        mood_status: v.string(),         
+        online_status: v.string()        
+    })
+    .index("by_userId", ['userId']),
+
+    guestProfile: defineTable({
+        userId: v.id("users"),        
+        userName: v.string(),
+        imageUrl: v.string(),
+        bio: v.string(),
+    })
+    .index("by_userId", ['userId']),
+
+    userPosts: defineTable({
+        userId: v.id("users"),
+        postId: v.id("post"),
+    })
+    .index("by_userId", ['userId']),
+
+    guestPost: defineTable({
+        userId: v.id("users"),
+        postId: v.id("post"),
+    })
+    .index("by_userId", ['userId']),
+    
+    post: defineTable({
+        title: v.string(),
+        content: v.string(),
+        theme: v.string(),
+        likes: v.number(),
+        category: v.string(),
+        tags: v.array(v.string())
+    }),
+
+    comment: defineTable({
+        userId: v.id('users'),
+        postId: v.id("post"),
+        comment: v.string(),
+        user_tag: v.optional(v.id('users'))
+    })
+    .index("by_postId", ['postId']),
+
+    groupDetails: defineTable({
+        conversationsId: v.id('conversations'),
+        admins: v.array(v.id('users')),  
+        imageUrl: v.string(),
+        features: v.array(v.string()),  
+        bio: v.string(),
+        about: v.string(),          
+    })
+    .index("by_conversationId", ['conversationsId']),
+
     request: defineTable({
         sender: v.id("users"),
         receiver: v.id("users")

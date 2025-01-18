@@ -5,9 +5,11 @@ import { useQuery } from 'convex/react';
 import React from 'react'
 import Message from './Message';
 
-type Props = {}
+type Props = {
+    handleAvatarClick: (messageId: Id<"users">) => void;
+  };
 
-const Body = (props: Props) => {
+const Body = ({handleAvatarClick}: Props) => {
     const { conversationId } = useConversation();
     const messages = useQuery(api.messages.get, {
         id: conversationId as Id<"conversations">
@@ -29,7 +31,8 @@ const Body = (props: Props) => {
                         lastByUser={lastByUser}
                         content={message.content} 
                         createdAt={message._creationTime}
-                        type={message.type} 
+                        type={message.type}
+                        onAvatarClick={() => handleAvatarClick(message.senderId)}  
                     />
                 );
             })}

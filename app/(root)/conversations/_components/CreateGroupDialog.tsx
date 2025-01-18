@@ -4,7 +4,6 @@ import { Card } from '@/components/ui/card';
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-<FormMessage />
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { api } from '@/convex/_generated/api';
@@ -12,7 +11,6 @@ import { useMutationState } from '@/hooks/useMutationState';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Avatar } from '@radix-ui/react-avatar';
 import { Dialog } from '@radix-ui/react-dialog';
-import { error } from 'console';
 import { useQuery } from 'convex/react';
 import { ConvexError } from 'convex/values';
 import { CirclePlus, X } from 'lucide-react';

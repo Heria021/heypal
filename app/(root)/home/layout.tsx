@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import UserInformation from './_components/UserInformation'
+import UserInformation from './_components/User/UserInformation'
 
 type Props = React.PropsWithChildren<{}>
 
