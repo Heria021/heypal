@@ -2,6 +2,37 @@ import { ConvexError, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { getUserByClerkId } from "./_utils";
 
+export const getId = query({
+    args: {},
+    handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+
+        if (!identity) {
+            throw new ConvexError("Unauthorized");
+        }
+
+        const currentUser = await getUserByClerkId({
+            ctx,
+            clerkId: identity.subject,
+        });
+
+        if (!currentUser) {
+            throw new ConvexError("User not found");
+        };
+
+        const guestId = await ctx.db.query('guestProfile').withIndex('by_userId', (q)=>q.eq('userId', currentUser._id)).unique();
+
+        if(!guestId){
+            return false;
+        };
+
+        return true
+
+
+    },
+});
+
+
 export const get = query({
     args: {},
     handler: async (ctx, args) => {
@@ -44,6 +75,7 @@ export const get = query({
 });
 
 
+
 export const createPost = mutation({
     args: {
         title: v.string(),
@@ -67,11 +99,19 @@ export const createPost = mutation({
             throw new ConvexError("User not found");
         };
 
+        
+        const guestId = await ctx.db.query('guestProfile').withIndex('by_userId', (q)=>q.eq('userId', currentUser._id)).unique();
+
+        if(!guestId){
+            throw new ConvexError('Your Anonymous Account not found!')
+        }
+
         const post = await ctx.db.insert('post', {
             ...args,
             likes: 0,
             theme: ''
         });
+
 
         if (!post) {
             throw new ConvexError('failed to create post')

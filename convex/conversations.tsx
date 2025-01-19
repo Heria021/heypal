@@ -112,8 +112,8 @@ export const getGroupsAndFriends = query({
       .collect();
 
     const allConversations = [
-      ...groupConversations.map((conversation) => conversation._id), // extract _id from group conversations
-      ...conversationMemberships.map((membership) => membership.conversationId), // extract conversationId from memberships
+      ...groupConversations.map((conversation) => conversation._id), 
+      ...conversationMemberships.map((membership) => membership.conversationId), 
     ];
 
     const uniqueConversationIds = [...new Set(allConversations)];

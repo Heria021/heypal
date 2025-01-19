@@ -58,8 +58,9 @@ const CreateGroupDialog = (props: Props) => {
             <Tooltip>
                 <TooltipTrigger asChild>
                     <DialogTrigger asChild>
-                        <Button size={'icon'} variant={'outline'}>
+                        <Button size={'lg'} variant={'outline'} className=' flex items-center space-x-2'>
                             <CirclePlus />
+                            <span>Add Group</span>
                         </Button>
                     </DialogTrigger>
                 </TooltipTrigger>
@@ -74,7 +75,6 @@ const CreateGroupDialog = (props: Props) => {
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-8'>
-                        {/* Group Name Field */}
                         <FormField control={form.control} name="name" render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Name</FormLabel>
@@ -85,7 +85,6 @@ const CreateGroupDialog = (props: Props) => {
                             </FormItem>
                         )} />
 
-                        {/* Friends Selection Field */}
                         <FormField control={form.control} name="members" render={() => (
                             <FormItem>
                                 <FormLabel>Friends</FormLabel>
@@ -122,7 +121,6 @@ const CreateGroupDialog = (props: Props) => {
                             </FormItem>
                         )} />
 
-                        {/* Selected Members */}
                         {members && members.length ? (
                             <Card className='flex items-center gap-3 overflow-x-auto w-full h-2/4 p-2 no-scrollbar'>
                                 {friends?.filter(friend => members.includes(friend._id)).map((friend, index) => (
@@ -143,7 +141,6 @@ const CreateGroupDialog = (props: Props) => {
                             </Card>
                         ) : null}
                         <DialogFooter>
-                            {/* Submit Button */}
                             <Button type="submit" disabled={pending}>
                                 {pending ? "Creating..." : "Create Group"}
                             </Button>

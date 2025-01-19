@@ -24,6 +24,8 @@ import { api } from "@/convex/_generated/api"
 import { toast } from "sonner"
 import { ConvexError } from "convex/values"
 import { useContent } from "@/hooks/useContent"
+import { useQuery } from "convex/react"
+import Anonymous from "./Anonymous"
 
 const FormSchema = z.object({
     title: z.string().min(2, {
@@ -39,6 +41,9 @@ export function CreatePost() {
     const [currentInterest, setCurrentInterest] = useState('')
     const { mutate: createPost } = useMutationState(api.posts.createPost);
     const { mutate: createConfee } = useMutationState(api.guests.createPost);
+    const guest = useQuery(api.guests.getId);
+    console.log(guest);
+
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -62,6 +67,10 @@ export function CreatePost() {
         });
         setTags([]);
         form.reset();
+    }
+
+    if(currentPath?.post === "anonymous-confessions" && !guest){
+        return <Anonymous/>
     }
 
     const handleInterestKeyDown = (e: React.KeyboardEvent) => {

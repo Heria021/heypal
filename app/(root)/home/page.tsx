@@ -22,7 +22,7 @@ const Page = () => {
 
   const handleConversationClick = async (
     conversationId: string,
-  ) => {
+  ) => {  
     await createGroupMember({ conversationId}).then(() => {
         toast.success("Group Joined");
         router.push(`/conversations/${conversationId}`);

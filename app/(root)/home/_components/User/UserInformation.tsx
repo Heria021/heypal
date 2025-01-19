@@ -29,6 +29,9 @@ interface UserProfile {
 
 const UserInformation = () => {
     const user = useQuery(api.profile.get) as UserProfile;
+    if(!user){
+        return <></>
+    }
 
     return (
         <Card className="max-w-sm h-auto text-primary shadow-lg rounded-3xl p-2">

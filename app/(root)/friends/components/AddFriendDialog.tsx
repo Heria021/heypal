@@ -1,6 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
@@ -23,14 +24,14 @@ const addFriendFormSchema = z.object({
 
 
 const AddFriendDialog = (props: Props) => {
-    const {mutate:createRequest, pending} = useMutationState(api.request.create)
+    const { mutate: createRequest, pending } = useMutationState(api.request.create)
 
     const form = useForm<z.infer<typeof addFriendFormSchema>>({
         resolver: zodResolver(addFriendFormSchema)
     })
 
     const handleSubmit = async (values: z.infer<typeof addFriendFormSchema>) => {
-        await createRequest({email: values.email}).then(()=>{form.reset(); toast.success("Request has been sent!")}).catch((error) => {
+        await createRequest({ email: values.email }).then(() => { form.reset(); toast.success("Request has been sent!") }).catch((error) => {
             toast.error(error instanceof ConvexError ? error.data : 'Unexpected Error Occured')
         })
     }
@@ -40,8 +41,9 @@ const AddFriendDialog = (props: Props) => {
             <Tooltip>
                 <TooltipTrigger asChild>
                     <DialogTrigger asChild>
-                        <Button size={"icon"} variant={'outline'}>
+                        <Button size={"lg"} variant={'outline'} className="flex items-center space-x-2">
                             <UserPlus />
+                            <span>Add Friend</span>
                         </Button>
                     </DialogTrigger>
                 </TooltipTrigger>
@@ -65,9 +67,9 @@ const AddFriendDialog = (props: Props) => {
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="email..." {...field} value={field.value || ""}  />
+                                        <Input placeholder="email..." {...field} value={field.value || ""} />
                                     </FormControl>
-                                    <FormMessage/>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

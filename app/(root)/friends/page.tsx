@@ -15,7 +15,7 @@ const FriendsPage = (props: Props) => {
   return (
     <>
       <ItemList title={'Friends'} action={
-        <AddFriendDialog />
+        [<AddFriendDialog />]
       }>
         {requests === undefined ? (
           <p className="w-full h-full flex items-center justify-center">Loading...</p>
